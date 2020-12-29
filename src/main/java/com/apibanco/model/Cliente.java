@@ -19,4 +19,12 @@ public class Cliente {
 	@Column(nullable = false)
 	private String nome;
 
+	@Column(nullable = false)
+	private String email;
+	
+	@Column(nullable = false)
+	private String cpf;
+	
+	@Column(nullable = false)
+	private String dtNasc;
 }
