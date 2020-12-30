@@ -3,7 +3,6 @@ package com.apibanco.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.xml.bind.TypeConstraintException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.apibanco.exceptions.validationException;
 import com.apibanco.model.Cliente;
 import com.apibanco.repository.ClienteRepository;
 
@@ -29,20 +29,14 @@ public class ClienteController {
 	public List<Cliente> listar() {
 		return clienteRepository.findAll();
 	}
-
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente adicionar(@RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
+	public Cliente adicionar(@Valid @RequestBody Cliente cliente, BindingResult br) throws validationException{
+		if(br.hasErrors()) {
+			throw new validationException(br.getAllErrors().get(0).getDefaultMessage());
+		} else {
+			return clienteRepository.save(cliente);	
+		}
 	}
-	
-	//@PostMapping
-	//@ResponseStatus(HttpStatus.CREATED)
-	//public Cliente adicionar(@Valid @RequestBody Cliente cliente, BindingResult br) {
-	//	if(br.hasErrors()) {
-	//		throw new TypeConstraintException(br.getAllErrors().get(0).getDefaultMessage());
-	//	} else {
-	//		return clienteRepository.save(cliente);	
-	//	}
-	//}
 }

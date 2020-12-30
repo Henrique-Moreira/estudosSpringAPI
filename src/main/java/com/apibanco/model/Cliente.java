@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -22,11 +23,13 @@ public class Cliente {
 	@NotBlank(message = "O nome deve ser preenchido")
 	private String nome;
 	
+	@PrimaryKeyJoinColumn
 	@Column(nullable = false)
 	@NotBlank(message = "O email deve ser preenchido")
 	@Pattern(regexp = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$", message = "Formato de email incorreto.") //validar email. ex: exemplo@dominio.com
 	private String email;
 	
+	@PrimaryKeyJoinColumn
 	@Column(nullable = false) 
 	@NotBlank(message = "O cpf deve ser preenchido")
 	@Pattern(regexp = "(^\\d{3}\\x2E\\d{3}\\x2E\\d{3}\\x2D\\d{2}$)", message = "0 cpf deve conter o formato ddd.ddd.ddd-dd") //validar cpf. ex: 111.222.333-44
